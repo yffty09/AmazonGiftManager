@@ -12,20 +12,32 @@ export function registerRoutes(app: Express): Server {
   // ユーザー情報取得
   app.get("/api/user", (req, res) => {
     if (!req.user) {
-      return res.status(401).send("Not logged in");
+      return res.status(401).json({
+        ok: false,
+        message: "認証が必要です"
+      });
     }
-    res.json(req.user);
+    res.json({
+      ok: true,
+      user: req.user
+    });
   });
 
   // ギフトカード作成
   app.post("/api/giftcards", async (req, res) => {
     if (!req.user) {
-      return res.status(401).send("認証が必要です");
+      return res.status(401).json({
+        ok: false,
+        message: "認証が必要です"
+      });
     }
 
     const { amount } = req.body;
     if (!amount || amount <= 0) {
-      return res.status(400).send("有効な金額を指定してください");
+      return res.status(400).json({
+        ok: false,
+        message: "有効な金額を指定してください"
+      });
     }
 
     try {
@@ -40,16 +52,22 @@ export function registerRoutes(app: Express): Server {
         })
         .returning();
 
-      res.json(giftCard);
+      res.json({
+        ok: true,
+        giftCard
+      });
     } catch (error: any) {
-      res.status(500).send(error.message);
+      res.status(500).json({
+        ok: false,
+        message: error.message
+      });
     }
   });
 
   // ギフトカード一覧取得
   app.get("/api/giftcards", async (req, res) => {
     if (!req.user) {
-      return res.status(401).send("認証が必要です");
+      return res.status(401).json({ ok: false, message: "認証が必要です" });
     }
 
     try {
@@ -72,16 +90,16 @@ export function registerRoutes(app: Express): Server {
         .where(and(...conditions))
         .orderBy(giftCards.createdAt);
 
-      res.json(cards);
+      res.json({ ok: true, cards });
     } catch (error: any) {
-      res.status(500).send(error.message);
+      res.status(500).json({ ok: false, message: error.message });
     }
   });
 
   // ギフトカードステータス更新
   app.patch("/api/giftcards/:id", async (req, res) => {
     if (!req.user) {
-      return res.status(401).send("認証が必要です");
+      return res.status(401).json({ ok: false, message: "認証が必要です" });
     }
 
     const { id } = req.params;
@@ -100,7 +118,7 @@ export function registerRoutes(app: Express): Server {
         .limit(1);
 
       if (!card) {
-        return res.status(404).send("ギフトカードが見つかりません");
+        return res.status(404).json({ ok: false, message: "ギフトカードが見つかりません" });
       }
 
       const [updated] = await db
@@ -109,9 +127,9 @@ export function registerRoutes(app: Express): Server {
         .where(eq(giftCards.id, card.id))
         .returning();
 
-      res.json(updated);
+      res.json({ ok: true, updated });
     } catch (error: any) {
-      res.status(500).send(error.message);
+      res.status(500).json({ ok: false, message: error.message });
     }
   });
 
