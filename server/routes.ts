@@ -2,8 +2,8 @@ import { type Express } from "express";
 import { createServer, type Server } from "http";
 import { setupAuth } from "./auth";
 import { db } from "@db";
-import { giftCards, users } from "@db/schema";
-import { and, eq, gte, lte } from "drizzle-orm";
+import { giftCards, users, type User } from "@db/schema";
+import { and, eq, gte, lte, ilike } from "drizzle-orm";
 import { generateGiftCard } from "./amazon-api";
 
 export function registerRoutes(app: Express): Server {
@@ -45,7 +45,7 @@ export function registerRoutes(app: Express): Server {
       const [giftCard] = await db
         .insert(giftCards)
         .values({
-          userId: req.user.id,
+          userId: (req.user as User).id,
           code,
           amount,
           recipientName: recipientName || null,
@@ -66,24 +66,50 @@ export function registerRoutes(app: Express): Server {
     }
   });
 
-  // ギフトカード一覧取得
+  // ギフトカード一覧取得（検索機能強化）
   app.get("/api/giftcards", async (req, res) => {
     if (!req.user) {
       return res.status(401).json({ ok: false, message: "認証が必要です" });
     }
 
     try {
-      const { isUsed, minAmount, maxAmount } = req.query;
-      const conditions = [eq(giftCards.userId, req.user.id)];
+      const {
+        code,
+        isUsed,
+        minAmount,
+        maxAmount,
+        recipientName,
+        recipientEmail
+      } = req.query;
 
+      const conditions = [eq(giftCards.userId, (req.user as User).id)];
+
+      // コード検索
+      if (code) {
+        conditions.push(ilike(giftCards.code, `%${code}%`));
+      }
+
+      // 使用状態での検索
       if (isUsed !== undefined) {
         conditions.push(eq(giftCards.isUsed, isUsed === "true"));
       }
+
+      // 金額範囲での検索
       if (minAmount) {
         conditions.push(gte(giftCards.amount, parseInt(minAmount as string)));
       }
       if (maxAmount) {
         conditions.push(lte(giftCards.amount, parseInt(maxAmount as string)));
+      }
+
+      // 受取人名での検索
+      if (recipientName) {
+        conditions.push(ilike(giftCards.recipientName, `%${recipientName}%`));
+      }
+
+      // メールアドレスでの検索
+      if (recipientEmail) {
+        conditions.push(ilike(giftCards.recipientEmail, `%${recipientEmail}%`));
       }
 
       const cards = await db
@@ -114,7 +140,7 @@ export function registerRoutes(app: Express): Server {
         .where(
           and(
             eq(giftCards.id, parseInt(id)),
-            eq(giftCards.userId, req.user.id)
+            eq(giftCards.userId, (req.user as User).id)
           )
         )
         .limit(1);
