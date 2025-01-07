@@ -13,6 +13,10 @@ export const giftCards = pgTable("gift_cards", {
   code: text("code").notNull(),
   amount: integer("amount").notNull(),
   isUsed: boolean("is_used").default(false).notNull(),
+  recipientName: text("recipient_name"),
+  recipientEmail: text("recipient_email"),
+  sentAt: timestamp("sent_at"),
+  receivedAt: timestamp("received_at"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

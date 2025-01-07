@@ -7,6 +7,12 @@ type GiftCardFilter = {
   maxAmount?: number;
 };
 
+type GiftCardInput = {
+  amount: number;
+  recipientName?: string;
+  recipientEmail?: string;
+};
+
 type GiftCardResponse = {
   ok: boolean;
   cards: GiftCard[];
@@ -33,11 +39,11 @@ export function useGiftCards(filter?: GiftCardFilter) {
   });
 
   const createMutation = useMutation({
-    mutationFn: async (amount: number) => {
+    mutationFn: async (input: GiftCardInput) => {
       const response = await fetch('/api/giftcards', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount }),
+        body: JSON.stringify(input),
         credentials: 'include',
       });
       if (!response.ok) throw new Error('ギフトカードの作成に失敗しました');

@@ -32,7 +32,7 @@ export function registerRoutes(app: Express): Server {
       });
     }
 
-    const { amount } = req.body;
+    const { amount, recipientName, recipientEmail } = req.body;
     if (!amount || amount <= 0) {
       return res.status(400).json({
         ok: false,
@@ -48,6 +48,8 @@ export function registerRoutes(app: Express): Server {
           userId: req.user.id,
           code,
           amount,
+          recipientName: recipientName || null,
+          recipientEmail: recipientEmail || null,
           isUsed: false,
         })
         .returning();

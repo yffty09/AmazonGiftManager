@@ -24,7 +24,11 @@ import { Loader2 } from "lucide-react";
 export default function HomePage() {
   const { logout } = useUser();
   const { toast } = useToast();
-  const [amount, setAmount] = useState("");
+  const [giftCardData, setGiftCardData] = useState({
+    amount: "",
+    recipientName: "",
+    recipientEmail: "",
+  });
   const [filter, setFilter] = useState({
     isUsed: undefined as boolean | undefined,
     minAmount: "",
@@ -39,8 +43,16 @@ export default function HomePage() {
 
   const handleCreateGiftCard = async () => {
     try {
-      await createGiftCard(parseInt(amount));
-      setAmount("");
+      await createGiftCard({
+        amount: parseInt(giftCardData.amount),
+        recipientName: giftCardData.recipientName,
+        recipientEmail: giftCardData.recipientEmail,
+      });
+      setGiftCardData({
+        amount: "",
+        recipientName: "",
+        recipientEmail: "",
+      });
       toast({
         title: "成功",
         description: "ギフトカードが作成されました",
@@ -70,6 +82,11 @@ export default function HomePage() {
     }
   };
 
+  const formatDate = (date: string | null) => {
+    if (!date) return "未設定";
+    return new Date(date).toLocaleDateString();
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 p-4">
       <div className="max-w-6xl mx-auto space-y-4">
@@ -85,14 +102,34 @@ export default function HomePage() {
             <CardTitle>新規ギフトカード発行</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="flex gap-4">
-              <Input
-                type="number"
-                placeholder="金額"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-              />
-              <Button onClick={handleCreateGiftCard}>発行</Button>
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <Input
+                  type="number"
+                  placeholder="金額"
+                  value={giftCardData.amount}
+                  onChange={(e) =>
+                    setGiftCardData({ ...giftCardData, amount: e.target.value })
+                  }
+                />
+                <Input
+                  type="text"
+                  placeholder="受取人名"
+                  value={giftCardData.recipientName}
+                  onChange={(e) =>
+                    setGiftCardData({ ...giftCardData, recipientName: e.target.value })
+                  }
+                />
+                <Input
+                  type="email"
+                  placeholder="受取人メールアドレス"
+                  value={giftCardData.recipientEmail}
+                  onChange={(e) =>
+                    setGiftCardData({ ...giftCardData, recipientEmail: e.target.value })
+                  }
+                />
+              </div>
+              <Button onClick={handleCreateGiftCard} className="w-full">発行</Button>
             </div>
           </CardContent>
         </Card>
@@ -144,35 +181,43 @@ export default function HomePage() {
                   <Loader2 className="h-8 w-8 animate-spin" />
                 </div>
               ) : (
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>コード</TableHead>
-                      <TableHead>金額</TableHead>
-                      <TableHead>作成日</TableHead>
-                      <TableHead>ステータス</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {giftCards?.map((card) => (
-                      <TableRow key={card.id}>
-                        <TableCell>{card.code}</TableCell>
-                        <TableCell>¥{card.amount.toLocaleString()}</TableCell>
-                        <TableCell>
-                          {new Date(card.createdAt).toLocaleDateString()}
-                        </TableCell>
-                        <TableCell>
-                          <Switch
-                            checked={card.isUsed}
-                            onCheckedChange={(checked) =>
-                              handleStatusChange(card.id, checked)
-                            }
-                          />
-                        </TableCell>
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>コード</TableHead>
+                        <TableHead>金額</TableHead>
+                        <TableHead>受取人</TableHead>
+                        <TableHead>メールアドレス</TableHead>
+                        <TableHead>作成日</TableHead>
+                        <TableHead>送信日</TableHead>
+                        <TableHead>受取日</TableHead>
+                        <TableHead>ステータス</TableHead>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+                    </TableHeader>
+                    <TableBody>
+                      {giftCards?.map((card) => (
+                        <TableRow key={card.id}>
+                          <TableCell>{card.code}</TableCell>
+                          <TableCell>¥{card.amount.toLocaleString()}</TableCell>
+                          <TableCell>{card.recipientName || "未設定"}</TableCell>
+                          <TableCell>{card.recipientEmail || "未設定"}</TableCell>
+                          <TableCell>{formatDate(card.createdAt)}</TableCell>
+                          <TableCell>{formatDate(card.sentAt)}</TableCell>
+                          <TableCell>{formatDate(card.receivedAt)}</TableCell>
+                          <TableCell>
+                            <Switch
+                              checked={card.isUsed}
+                              onCheckedChange={(checked) =>
+                                handleStatusChange(card.id, checked)
+                              }
+                            />
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
               )}
             </div>
           </CardContent>
