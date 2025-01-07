@@ -2,14 +2,22 @@
 
 source "https://rubygems.org"
 
+ruby "3.1.5"
+
+# Rails core gems
 gem "rails", "~> 7.0.0"
 gem "pg", "~> 1.5"
 gem "puma", "~> 6.5"
 gem "bcrypt", "~> 3.1"
-gem "rack-cors", "~> 2.0"
-gem "jwt", "~> 2.10"
 gem "bootsnap", require: false
-gem "tzinfo-data"
+
+# API and security
+gem "rack-cors"
+gem "jwt"
+
+# Frontend integration
+gem "jsbundling-rails"
+gem "vite_rails"
 
 group :development do
   gem "debug"
