@@ -2,12 +2,20 @@ import { type Express } from "express";
 import { createServer, type Server } from "http";
 import { setupAuth } from "./auth";
 import { db } from "@db";
-import { giftCards } from "@db/schema";
+import { giftCards, users } from "@db/schema";
 import { and, eq, gte, lte } from "drizzle-orm";
 import { generateGiftCard } from "./amazon-api";
 
 export function registerRoutes(app: Express): Server {
   setupAuth(app);
+
+  // ユーザー情報取得
+  app.get("/api/user", (req, res) => {
+    if (!req.user) {
+      return res.status(401).send("Not logged in");
+    }
+    res.json(req.user);
+  });
 
   // ギフトカード作成
   app.post("/api/giftcards", async (req, res) => {
