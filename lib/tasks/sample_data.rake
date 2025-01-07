@@ -1,3 +1,5 @@
+require 'rake'
+
 namespace :db do
   desc "サンプルデータを生成"
   task generate_sample_data: :environment do

@@ -1,0 +1,19 @@
+current directory: /home/runner/AmazonGiftManager/.bundle/ruby/3.1.0/gems/debug-1.10.0/ext/debug
+/nix/store/c4bdx4dja3h06xg1ksv3f51alp5a44li-ruby-3.1.5/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /home/runner/AmazonGiftManager/.bundle/ruby/3.1.0/gems/debug-1.10.0/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20250107-10849-a93a41 sitelibdir\=./.gem.20250107-10849-a93a41 clean
+
+current directory: /home/runner/AmazonGiftManager/.bundle/ruby/3.1.0/gems/debug-1.10.0/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20250107-10849-a93a41 sitelibdir\=./.gem.20250107-10849-a93a41
+compiling debug.c
+compiling iseq_collector.c
+linking shared-object debug/debug.so
+
+current directory: /home/runner/AmazonGiftManager/.bundle/ruby/3.1.0/gems/debug-1.10.0/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20250107-10849-a93a41 sitelibdir\=./.gem.20250107-10849-a93a41 install
+install -c -p -m 755 debug.so ./.gem.20250107-10849-a93a41/debug
+
+current directory: /home/runner/AmazonGiftManager/.bundle/ruby/3.1.0/gems/debug-1.10.0/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20250107-10849-a93a41 sitelibdir\=./.gem.20250107-10849-a93a41 clean
