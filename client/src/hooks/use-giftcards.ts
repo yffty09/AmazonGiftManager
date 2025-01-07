@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { GiftCard } from "@db/schema";
 
 type GiftCardFilter = {
@@ -7,10 +7,16 @@ type GiftCardFilter = {
   maxAmount?: number;
 };
 
+type GiftCardResponse = {
+  ok: boolean;
+  cards: GiftCard[];
+  message?: string;
+};
+
 export function useGiftCards(filter?: GiftCardFilter) {
   const queryClient = useQueryClient();
 
-  const { data: giftCards, isLoading } = useQuery<GiftCard[]>({
+  const { data, isLoading } = useQuery<GiftCardResponse>({
     queryKey: ['/api/giftcards', filter],
     queryFn: async () => {
       const params = new URLSearchParams();
@@ -21,7 +27,7 @@ export function useGiftCards(filter?: GiftCardFilter) {
       const response = await fetch(`/api/giftcards?${params.toString()}`, {
         credentials: 'include',
       });
-      if (!response.ok) throw new Error('Failed to fetch gift cards');
+      if (!response.ok) throw new Error('ギフトカードの取得に失敗しました');
       return response.json();
     },
   });
@@ -34,7 +40,7 @@ export function useGiftCards(filter?: GiftCardFilter) {
         body: JSON.stringify({ amount }),
         credentials: 'include',
       });
-      if (!response.ok) throw new Error('Failed to create gift card');
+      if (!response.ok) throw new Error('ギフトカードの作成に失敗しました');
       return response.json();
     },
     onSuccess: () => {
@@ -50,7 +56,7 @@ export function useGiftCards(filter?: GiftCardFilter) {
         body: JSON.stringify({ isUsed }),
         credentials: 'include',
       });
-      if (!response.ok) throw new Error('Failed to update gift card status');
+      if (!response.ok) throw new Error('ステータスの更新に失敗しました');
       return response.json();
     },
     onSuccess: () => {
@@ -59,7 +65,7 @@ export function useGiftCards(filter?: GiftCardFilter) {
   });
 
   return {
-    giftCards,
+    giftCards: data?.cards ?? [],
     isLoading,
     createGiftCard: createMutation.mutateAsync,
     updateStatus: updateStatusMutation.mutateAsync,
