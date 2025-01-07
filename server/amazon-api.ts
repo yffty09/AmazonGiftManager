@@ -1,18 +1,53 @@
-// Amazon Gift Card API統合
-// Note: これは実際のAmazon APIの実装例です。本番環境では実際のAmazon APIクレデンシャルと
-// エンドポイントを使用する必要があります。
+import { log } from "./vite";
 
+interface AmazonAPIError extends Error {
+  code?: string;
+  response?: any;
+}
+
+/**
+ * Amazon Gift Card APIを使用してギフトカードを生成する
+ * @param amount ギフトカードの金額（日本円）
+ * @returns 生成されたギフトカードのコード
+ * @throws AmazonAPIError API呼び出し時のエラー
+ */
 export async function generateGiftCard(amount: number): Promise<string> {
   if (!process.env.AMAZON_API_KEY) {
-    throw new Error("Amazon API key is not configured");
+    throw new Error("Amazon APIキーが設定されていません");
   }
 
   try {
-    // この部分は実際のAmazon APIに置き換える必要があります
-    // ここではダミーのギフトカードコードを生成しています
-    const code = `AMZN${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
-    return code;
+    // Amazon APIのエンドポイントとパラメータを設定
+    const apiEndpoint = "https://api.amazon.co.jp/v1/gift-cards";
+    const response = await fetch(apiEndpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${process.env.AMAZON_API_KEY}`,
+      },
+      body: JSON.stringify({
+        currency: "JPY",
+        amount: amount,
+        type: "egift",
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => null);
+      const error = new Error("ギフトカードの生成に失敗しました") as AmazonAPIError;
+      error.code = errorData?.error?.code;
+      error.response = errorData;
+      throw error;
+    }
+
+    const data = await response.json();
+    log(`ギフトカード生成成功: ${amount}円`);
+    return data.claim_code;
   } catch (error: any) {
-    throw new Error(`Failed to generate gift card: ${error.message}`);
+    log(`ギフトカード生成エラー: ${error.message}`);
+    if (error.code) {
+      log(`エラーコード: ${error.code}`);
+    }
+    throw error;
   }
 }
