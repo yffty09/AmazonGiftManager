@@ -1,45 +1,30 @@
 current directory: /home/runner/AmazonGiftManager/.bundle/ruby/3.1.0/gems/psych-5.2.2/ext/psych
 /nix/store/c4bdx4dja3h06xg1ksv3f51alp5a44li-ruby-3.1.5/bin/ruby extconf.rb
-checking for yaml.h... no
-yaml.h not found
-*** extconf.rb failed ***
-Could not create Makefile due to some reason, probably lack of necessary
-libraries and/or headers.  Check the mkmf.log file for more details.  You may
-need configuration options.
+checking for yaml.h... yes
+checking for yaml_get_version() in -lyaml... yes
+creating Makefile
 
-Provided configuration options:
-	--with-opt-dir
-	--without-opt-dir
-	--with-opt-include
-	--without-opt-include=${opt-dir}/include
-	--with-opt-lib
-	--without-opt-lib=${opt-dir}/lib
-	--with-make-prog
-	--without-make-prog
-	--srcdir=.
-	--curdir
-	--ruby=/nix/store/c4bdx4dja3h06xg1ksv3f51alp5a44li-ruby-3.1.5/bin/$(RUBY_BASE_NAME)
-	--with-libyaml-source-dir
-	--without-libyaml-source-dir
-	--with-yaml-0.1-dir
-	--without-yaml-0.1-dir
-	--with-yaml-0.1-include
-	--without-yaml-0.1-include=${yaml-0.1-dir}/include
-	--with-yaml-0.1-lib
-	--without-yaml-0.1-lib=${yaml-0.1-dir}/lib
-	--with-yaml-0.1-config
-	--without-yaml-0.1-config
-	--with-pkg-config
-	--without-pkg-config
-	--with-libyaml-dir
-	--without-libyaml-dir
-	--with-libyaml-include
-	--without-libyaml-include=${libyaml-dir}/include
-	--with-libyaml-lib
-	--without-libyaml-lib=${libyaml-dir}/lib
+current directory: /home/runner/AmazonGiftManager/.bundle/ruby/3.1.0/gems/psych-5.2.2/ext/psych
+make DESTDIR\= sitearchdir\=./.gem.20250107-6864-yhiedc sitelibdir\=./.gem.20250107-6864-yhiedc clean
+cd libyaml && make clean
+/bin/sh: 1: cd: can't cd to libyaml
+make: [Makefile:282: clean-so] Error 2 (ignored)
 
-To see why this extension failed to compile, please check the mkmf.log which can be found here:
+current directory: /home/runner/AmazonGiftManager/.bundle/ruby/3.1.0/gems/psych-5.2.2/ext/psych
+make DESTDIR\= sitearchdir\=./.gem.20250107-6864-yhiedc sitelibdir\=./.gem.20250107-6864-yhiedc
+compiling psych.c
+compiling psych_emitter.c
+compiling psych_parser.c
+compiling psych_to_ruby.c
+compiling psych_yaml_tree.c
+linking shared-object psych.so
 
-  /home/runner/AmazonGiftManager/.bundle/ruby/3.1.0/extensions/x86_64-linux/3.1.0/psych-5.2.2/mkmf.log
+current directory: /home/runner/AmazonGiftManager/.bundle/ruby/3.1.0/gems/psych-5.2.2/ext/psych
+make DESTDIR\= sitearchdir\=./.gem.20250107-6864-yhiedc sitelibdir\=./.gem.20250107-6864-yhiedc install
+install -c -p -m 755 psych.so ./.gem.20250107-6864-yhiedc
 
-extconf failed, exit code 1
+current directory: /home/runner/AmazonGiftManager/.bundle/ruby/3.1.0/gems/psych-5.2.2/ext/psych
+make DESTDIR\= sitearchdir\=./.gem.20250107-6864-yhiedc sitelibdir\=./.gem.20250107-6864-yhiedc clean
+cd libyaml && make clean
+/bin/sh: 1: cd: can't cd to libyaml
+make: [Makefile:282: clean-so] Error 2 (ignored)
