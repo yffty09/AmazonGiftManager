@@ -1,0 +1,25 @@
+current directory: /home/runner/AmazonGiftManager/.bundle/ruby/3.1.0/gems/bcrypt-3.1.20/ext/mri
+/nix/store/c4bdx4dja3h06xg1ksv3f51alp5a44li-ruby-3.1.5/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /home/runner/AmazonGiftManager/.bundle/ruby/3.1.0/gems/bcrypt-3.1.20/ext/mri
+make DESTDIR\= sitearchdir\=./.gem.20250107-1054-b486wl sitelibdir\=./.gem.20250107-1054-b486wl clean
+
+current directory: /home/runner/AmazonGiftManager/.bundle/ruby/3.1.0/gems/bcrypt-3.1.20/ext/mri
+make DESTDIR\= sitearchdir\=./.gem.20250107-1054-b486wl sitelibdir\=./.gem.20250107-1054-b486wl
+compiling bcrypt_ext.c
+compiling crypt_blowfish.c
+gcc  -D__SKIP_GNU     -c -o x86.o x86.S
+compiling crypt_gensalt.c
+compiling wrapper.c
+wrapper.c:182:60: warning: ‘struct crypt_data’ declared inside parameter list will not be visible outside of this definition or declaration
+  182 | char *crypt_r(const char *key, const char *setting, struct crypt_data *data)
+      |                                                            ^~~~~~~~~~
+linking shared-object bcrypt_ext.so
+
+current directory: /home/runner/AmazonGiftManager/.bundle/ruby/3.1.0/gems/bcrypt-3.1.20/ext/mri
+make DESTDIR\= sitearchdir\=./.gem.20250107-1054-b486wl sitelibdir\=./.gem.20250107-1054-b486wl install
+install -c -p -m 755 bcrypt_ext.so ./.gem.20250107-1054-b486wl
+
+current directory: /home/runner/AmazonGiftManager/.bundle/ruby/3.1.0/gems/bcrypt-3.1.20/ext/mri
+make DESTDIR\= sitearchdir\=./.gem.20250107-1054-b486wl sitelibdir\=./.gem.20250107-1054-b486wl clean

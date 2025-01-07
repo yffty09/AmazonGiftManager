@@ -1,0 +1,24 @@
+current directory: /home/runner/AmazonGiftManager/.bundle/ruby/3.1.0/gems/puma-6.5.0/ext/puma_http11
+/nix/store/c4bdx4dja3h06xg1ksv3f51alp5a44li-ruby-3.1.5/bin/ruby extconf.rb
+checking for BIO_read() in -llibcrypto... no
+checking for BIO_read() in -lcrypto... no
+checking for BIO_read() in -llibeay32... no
+** Puma will be compiled without SSL support
+creating Makefile
+
+current directory: /home/runner/AmazonGiftManager/.bundle/ruby/3.1.0/gems/puma-6.5.0/ext/puma_http11
+make DESTDIR\= sitearchdir\=./.gem.20250107-1054-qnkxrt sitelibdir\=./.gem.20250107-1054-qnkxrt clean
+
+current directory: /home/runner/AmazonGiftManager/.bundle/ruby/3.1.0/gems/puma-6.5.0/ext/puma_http11
+make DESTDIR\= sitearchdir\=./.gem.20250107-1054-qnkxrt sitelibdir\=./.gem.20250107-1054-qnkxrt
+compiling http11_parser.c
+compiling mini_ssl.c
+compiling puma_http11.c
+linking shared-object puma/puma_http11.so
+
+current directory: /home/runner/AmazonGiftManager/.bundle/ruby/3.1.0/gems/puma-6.5.0/ext/puma_http11
+make DESTDIR\= sitearchdir\=./.gem.20250107-1054-qnkxrt sitelibdir\=./.gem.20250107-1054-qnkxrt install
+install -c -p -m 755 puma_http11.so ./.gem.20250107-1054-qnkxrt/puma
+
+current directory: /home/runner/AmazonGiftManager/.bundle/ruby/3.1.0/gems/puma-6.5.0/ext/puma_http11
+make DESTDIR\= sitearchdir\=./.gem.20250107-1054-qnkxrt sitelibdir\=./.gem.20250107-1054-qnkxrt clean

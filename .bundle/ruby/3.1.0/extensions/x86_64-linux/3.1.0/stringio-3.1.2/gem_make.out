@@ -1,0 +1,18 @@
+current directory: /home/runner/AmazonGiftManager/.bundle/ruby/3.1.0/gems/stringio-3.1.2/ext/stringio
+/nix/store/c4bdx4dja3h06xg1ksv3f51alp5a44li-ruby-3.1.5/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /home/runner/AmazonGiftManager/.bundle/ruby/3.1.0/gems/stringio-3.1.2/ext/stringio
+make DESTDIR\= sitearchdir\=./.gem.20250107-1054-fbgnla sitelibdir\=./.gem.20250107-1054-fbgnla clean
+
+current directory: /home/runner/AmazonGiftManager/.bundle/ruby/3.1.0/gems/stringio-3.1.2/ext/stringio
+make DESTDIR\= sitearchdir\=./.gem.20250107-1054-fbgnla sitelibdir\=./.gem.20250107-1054-fbgnla
+compiling stringio.c
+linking shared-object stringio.so
+
+current directory: /home/runner/AmazonGiftManager/.bundle/ruby/3.1.0/gems/stringio-3.1.2/ext/stringio
+make DESTDIR\= sitearchdir\=./.gem.20250107-1054-fbgnla sitelibdir\=./.gem.20250107-1054-fbgnla install
+install -c -p -m 755 stringio.so ./.gem.20250107-1054-fbgnla
+
+current directory: /home/runner/AmazonGiftManager/.bundle/ruby/3.1.0/gems/stringio-3.1.2/ext/stringio
+make DESTDIR\= sitearchdir\=./.gem.20250107-1054-fbgnla sitelibdir\=./.gem.20250107-1054-fbgnla clean
