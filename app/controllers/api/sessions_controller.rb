@@ -1,13 +1,21 @@
 class Api::SessionsController < ApplicationController
-  skip_before_action :authenticate_user, only: [:create, :show]
+  skip_before_action :authenticate_user, only: [:create]
+  protect_from_forgery with: :null_session
 
   def create
     user = User.find_by(username: params[:username])
     if user&.authenticate(params[:password])
       session[:user_id] = user.id
-      render json: { ok: true, user: user.as_json(except: :password_digest) }
+      render json: { 
+        ok: true, 
+        user: user.as_json(except: :password_digest),
+        message: "ログインに成功しました"
+      }
     else
-      render json: { ok: false, message: "ユーザー名またはパスワードが正しくありません" }, status: :unauthorized
+      render json: { 
+        ok: false, 
+        message: "ユーザー名またはパスワードが正しくありません" 
+      }, status: :unauthorized
     end
   end
 
@@ -18,9 +26,15 @@ class Api::SessionsController < ApplicationController
 
   def show
     if current_user
-      render json: { ok: true, user: current_user.as_json(except: :password_digest) }
+      render json: { 
+        ok: true, 
+        user: current_user.as_json(except: :password_digest) 
+      }
     else
-      render json: { ok: false, message: "認証が必要です" }, status: :unauthorized
+      render json: { 
+        ok: false, 
+        message: "認証が必要です" 
+      }, status: :unauthorized
     end
   end
 end
